@@ -13,24 +13,23 @@
 <title>Article list</title>
 </head>
 <body style="text-align: center;">
-    <table style="border: 1px; width: 80%;">
+    <table style="border: 1px; width: 80%; margin-left: auto; margin-right: auto;">
         <tr style="background-color: aliceblue;">
             <td>Article NO</td>
             <td>Author</td>
             <td>Title</td>
             <td>Date</td>
         </tr>
-
 		<c:choose>
-			<c:when test="${articles == null} }">
+			<c:when test="${articleList == null }">
 		        <tr>
 		            <td colspan="4">
 		                <p><b><span>There is no article.</span></b></p>
 		            </td>
 		        </tr>
 		    </c:when>
-		    <c:when test="${articles != null} }">
-		    	<c:forEach var="article" items="${articles}" varStatus="articleCnt">
+		    <c:when test="${articleList != null }">
+		    	<c:forEach var="article" items="${articleList}" varStatus="articleCnt">
 				    <tr>
 			            <td>${articleCnt.count}</td>
 			            <td>${article.id}</td>
@@ -38,7 +37,7 @@
 			                <span style="padding-left: 30px;"></span>
 			                
 			                <c:choose>
-			                	<c:when test="${article.level > 1} }">
+			                	<c:when test="${article.level > 1 }">
 			                		<c:forEach begin="1" end="${article.level}" step="1">
 			                			<span style="padding-left: 20px;"></span>
 			                		</c:forEach>
@@ -53,6 +52,9 @@
 					                </a>
 					          	</c:otherwise>
 				          	</c:choose>
+			            </td>
+			            <td>
+			            	<fmt:formatDate value="${article.writeDate}"/>
 			            </td>
 		        	</tr>
 	        	</c:forEach>

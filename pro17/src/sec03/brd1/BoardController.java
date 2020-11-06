@@ -42,13 +42,13 @@ public class BoardController extends HttpServlet
 			if(action == null)
 			{
 				articles = boardService.listArticles();
-				req.setAttribute("articles", articles);
+				req.setAttribute("articleList", articles);
 				nextPage = "/board01/listArticles.jsp";
 			}
 			else if(action.equals("/listArticles.do"))
 			{
 				articles = boardService.listArticles();
-				req.setAttribute("articles", articles);
+				req.setAttribute("articleList", articles);
 				nextPage = "/board01/listArticles.jsp";
 			}
 			RequestDispatcher dispatch = req.getRequestDispatcher(nextPage);

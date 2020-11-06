@@ -62,6 +62,11 @@ public class BoardDAO
 				articles.add(article);
 			}
 			
+			for (ArticleVO article : articles)
+			{
+				System.out.println(article.getArticleNO() + " : " + article.getTitle());
+			}
+			
 			result.close();
 			pstmt.close();
 			conn.close();
