@@ -1,7 +1,8 @@
-package sec03.brd2;
+package sec03.brd3;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +21,10 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileUtils;
 
 
-//@WebServlet("/board/*")
+@WebServlet("/board/*")
 public class BoardController extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
@@ -76,6 +78,8 @@ public class BoardController extends HttpServlet
 			}
 			else if(action.equals("/addArticle.do"))
 			{
+				int articleNO = 0;
+				
 				Map<String, String> articleMap = upload(req, res);
 				String title = articleMap.get("title");
 				String content = articleMap.get("content");
@@ -87,9 +91,23 @@ public class BoardController extends HttpServlet
 				articleVO.setContent(content);
 				articleVO.setImageFileName(imageFileName);
 				
-				boardService.addArticle(articleVO);
+				articleNO = boardService.addArticle(articleVO);
 				
 				nextPage = "/board/listArticles.do";
+				
+				// Only when the image file exists
+				if(imageFileName != null && imageFileName.length() != 0)
+				{
+					// Create an object for the file that is saved in temp folder
+					File srcFile = new File(ARTICLE_IMAGE_REPO + "\\" + "temp" + "\\" + imageFileName);
+					
+					// create a destination directory according to article number
+					File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + articleNO);
+					destDir.mkdirs();
+					
+					// move temp file to destination directory
+					FileUtils.moveFileToDirectory(srcFile, destDir, true);
+				}
 			}
 			RequestDispatcher dispatch = req.getRequestDispatcher(nextPage);
 			dispatch.forward(req, res);
@@ -138,8 +156,11 @@ public class BoardController extends HttpServlet
 						}
 						String fileName = fileItem.getName().substring(idx + 1);
 						articleMap.put(fileItem.getFieldName(), fileName);
-						File uploadFile = new File(currentDirPath + "\\" + fileName);
-						fileItem.write(uploadFile);						
+						
+						// upload attached file to temp folder
+						File uploadFile = new File(currentDirPath + "\\temp\\" + fileName);
+						fileItem.write(uploadFile);		
+						
 						
 					}			
 				}
