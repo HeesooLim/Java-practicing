@@ -12,5 +12,8 @@
 	<classpathentry kind="lib" path="C:/tomcat9/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="C:/tomcat9/lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="C:/tomcat9/lib/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="C:/tomcat9/lib/tomcat-util.jar"/>
+	<classpathentry kind="lib" path="C:/tomcat9/lib/commons-fileupload-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/tomcat9/lib/commons-io-2.8.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
